@@ -45,36 +45,6 @@ Reference
 
 ### Status codes
 
-#### 1xx
-
-- 100 Continue
-- 101 SwitchingProtocols
-- 102 Processing
-
-#### 2xx
-
-- 200 OK
-- 201 Created
-- 202 Accepted
-- 203 NonAuthoritativeInfo
-- 204 NoContent
-- 205 ResetContent
-- 206 PartialContent
-- 207 MultiStatus
-- 208 AlreadyReported
-- 226 IMUsed
-
-#### 3xx
-
-- 300 MultipleChoices
-- 301 MovedPermanently
-- 302 Found
-- 303 SeeOther
-- 304 NotModified
-- 305 UseProxy
-- 307 TemporaryRedirect
-- 308 PermanentRedirect
-
 #### 4xx
 
 - 400 BadRequest
