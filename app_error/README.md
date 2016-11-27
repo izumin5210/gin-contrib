@@ -38,8 +38,8 @@ func Sample(c *gin.Context) {
 	// ...
 
 	if somethingWentWrong {
-		err := errors.New(AWESOME_REQUEST_ERROR_FOO_BAR)  // Create custom error
-		c.Error(err)                                      // Must not use c.AbortWithError
+		err := errors.New(ERROR_NAME_EMPTY)  // Create custom error
+		c.Error(err)                         // Must not use c.AbortWithError
 		return
 	}
 
