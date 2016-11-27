@@ -17,6 +17,16 @@ What
   - Create a const of an error string
   - Error string must follow the pattern `{status}.{package}.{struct/domain}...`
 
+```go
+r.Use(app_error.Wrap())
+
+// or
+
+r.Use(app_error.WrapWithCallback(func (c *gin.Context, body []byte, err error) {
+	// notify the error to somewhere...
+}))
+```
+
 ``` go
 package api
 
