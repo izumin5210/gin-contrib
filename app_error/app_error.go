@@ -1,10 +1,9 @@
 package app_error
 
 import (
-	"bytes"
-	"io/ioutil"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/creasty/gin-contrib/readbody"
 )
 
 const (
@@ -18,11 +17,7 @@ func Wrap() gin.HandlerFunc {
 
 func WrapWithCallback(callback CallbackFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		body := []byte{}
-		{
-			body, _ = ioutil.ReadAll(c.Request.Body)
-			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-		}
+		body := readbody.Read(c)
 
 		c.Next()
 

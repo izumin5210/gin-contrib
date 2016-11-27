@@ -1,11 +1,10 @@
 package panic_handler
 
 import (
-	"bytes"
-	"io/ioutil"
-
 	"github.com/creasty/panicsync"
 	"github.com/gin-gonic/gin"
+
+	"github.com/creasty/gin-contrib/readbody"
 )
 
 const CONTEXT_NAME = "PanicHandler"
@@ -16,11 +15,7 @@ func Wrap() gin.HandlerFunc {
 
 func WrapWithCallback(callback CallbackFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		body := []byte{}
-		{
-			body, _ = ioutil.ReadAll(c.Request.Body)
-			c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-		}
+		body := readbody.Read(c)
 
 		ph := panicsync.NewHandler(func(info *panicsync.Info) {
 			callback(c, body, info)

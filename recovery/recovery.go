@@ -1,13 +1,13 @@
 package recovery
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"runtime"
 
 	"github.com/gin-gonic/gin"
+
+	"github.com/creasty/gin-contrib/readbody"
 )
 
 func Wrap() gin.HandlerFunc {
@@ -16,7 +16,7 @@ func Wrap() gin.HandlerFunc {
 
 func WrapWithCallback(callback CallbackFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		body := extractBody(c)
+		body := readbody.Read(c)
 
 		defer func() {
 			r := recover()
@@ -34,12 +34,6 @@ func WrapWithCallback(callback CallbackFunc) gin.HandlerFunc {
 
 		c.Next()
 	}
-}
-
-func extractBody(c *gin.Context) (body []byte) {
-	body, _ = ioutil.ReadAll(c.Request.Body)
-	c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-	return
 }
 
 func printBacktrace(maxStacks, offset int) {
