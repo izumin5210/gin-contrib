@@ -10,11 +10,20 @@ import (
 	"github.com/creasty/gin-contrib/readbody"
 )
 
+type Config struct {
+	HidePanic    bool
+	CallbackFunc CallbackFunc
+}
+
 func Wrap() gin.HandlerFunc {
 	return WrapWithCallback(noopFunc)
 }
 
 func WrapWithCallback(callback CallbackFunc) gin.HandlerFunc {
+	return WrapWithConfig(&config{CallbackFunc: CallbackFunc})
+}
+
+func WrapWithConfig(c *Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		body := readbody.Read(c)
 
@@ -24,9 +33,11 @@ func WrapWithCallback(callback CallbackFunc) gin.HandlerFunc {
 				return
 			}
 
-			callback(c, body, r)
+			config.callback(c, body, r)
 
-			fmt.Println(r)
+			if config.HidePanic {
+				fmt.Println(r)
+			}
 			printBacktrace(20, 3)
 
 			c.AbortWithStatus(http.StatusInternalServerError)
